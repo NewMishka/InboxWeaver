@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Настройки плагина</title>
+  <link rel="stylesheet" href="settings.css">
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">InboxWeaver — Менеджер писем</div>
+        <h1>Настройки плагина</h1>
+        <div class="muted" id="pluginVersion">Версия: загрузка...</div>
+      </div>
+      <div class="top-actions">
+        <button id="openRules">Правила обработки →</button>
+      </div>
+    </header>
+
+    <div class="layout">
+      <div class="content">
+        <section class="card section" aria-labelledby="storageTitle">
+          <div class="section-head">
+            <span class="section-icon" aria-hidden="true">1</span>
+            <div>
+              <h2 id="storageTitle">Сохранение вложений</h2>
+              <p>Основной каталог задаётся в почтовом клиенте. Здесь указывается подпапка, которую создаёт плагин.</p>
+            </div>
+          </div>
+          <label class="field">Подпапка внутри каталога сохранения почтового клиента
+            <input id="basePath" placeholder="Вложения" autocomplete="off">
+            <span class="field-help">Например: Вложения или Почта/Документы. Абсолютные пути не используются.</span>
+          </label>
+          <div class="locked-option">
+            <span class="status-dot" aria-hidden="true"></span>
+            <div>
+              <strong>Проверка дублей по SHA-256 включена всегда</strong>
+              <div class="muted">Повторное сохранение одного и того же файла блокируется автоматически.</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card section" aria-labelledby="automationTitle">
+          <div class="section-head">
+            <span class="section-icon" aria-hidden="true">2</span>
+            <div>
+              <h2 id="automationTitle">Автоматизация</h2>
+              <p>Управляет фоновой проверкой писем и действиями после обработки.</p>
+            </div>
+          </div>
+          <div class="option-list">
+            <label class="option">
+              <input type="checkbox" id="liveMode">
+              <span><strong>Автоматически проверять новые письма</strong><small>Новые письма сопоставляются с включёнными правилами.</small></span>
+            </label>
+            <label class="option">
+              <input type="checkbox" id="stopAfterFirstMatch">
+              <span><strong>Останавливаться после первого совпавшего правила</strong><small>Подходит, если каждое письмо должно обрабатываться только одним правилом.</small></span>
+            </label>
+            <label class="option">
+              <input type="checkbox" id="enableTags">
+              <span><strong>Помечать письма по результату обработки</strong><small>Обработано — зелёная метка; ошибка — красная; ожидание сохранения или проверка — жёлтая.</small></span>
+            </label>
+            <label class="option">
+              <input type="checkbox" id="enableNotifications">
+              <span><strong>Уведомлять о совпавших, но не обработанных письмах</strong><small>Показывает предупреждение, когда правило найдено, а вложение сохранить не удалось.</small></span>
+            </label>
+            <label class="option">
+              <input type="checkbox" id="autoReportEnabled">
+              <span><strong>Автоматически выгружать отчёт XLSX</strong><small>Отчёт сохраняется без диалога в подпапку «Отчёты» системного каталога.</small></span>
+            </label>
+            <label class="field">Интервал автоматической выгрузки
+              <select id="autoReportIntervalMinutes">
+                <option value="30">Каждые 30 минут</option>
+                <option value="60">Каждый час</option>
+                <option value="360">Каждые 6 часов</option>
+                <option value="720">Каждые 12 часов</option>
+                <option value="1440">Каждый день</option>
+                <option value="10080">Каждую неделю</option>
+              </select>
+            </label>
+          </div>
+        </section>
+
+        <section class="card section" aria-labelledby="interfaceTitle">
+          <div class="section-head">
+            <span class="section-icon" aria-hidden="true">3</span>
+            <div>
+              <h2 id="interfaceTitle">Интерфейс</h2>
+              <p>Служебные элементы, которые видны пользователю.</p>
+            </div>
+          </div>
+          <div class="option-list">
+            <label class="option">
+              <input type="checkbox" id="showAuditButton">
+              <span><strong>Показывать «Журнал проверки»</strong><small>Добавляет кнопку журнала в главное окно плагина.</small></span>
+            </label>
+            <label class="option">
+              <input type="checkbox" id="showResetMenu">
+              <span><strong>Показывать инструменты обслуживания</strong><small>Открывает диагностику и сброс накопленных данных ниже.</small></span>
+            </label>
+          </div>
+        </section>
+
+        <section class="card section service-section" id="serviceSection" aria-labelledby="serviceTitle" hidden>
+          <div class="section-head">
+            <span class="section-icon" aria-hidden="true">4</span>
+            <div>
+              <h2 id="serviceTitle">Диагностика и обслуживание</h2>
+              <p>Инструменты проверки окружения и очистки накопленных данных.</p>
+            </div>
+          </div>
+          <div class="service-grid">
+            <div class="service-item">
+              <div>
+                <strong>Поддержка тегов</strong>
+                <p>Проверить, может ли текущий почтовый клиент создавать и назначать служебные теги.</p>
+              </div>
+              <button id="diagTagsBtn">Проверить</button>
+              <pre id="diagTagsResult" class="result" aria-live="polite"></pre>
+            </div>
+            <div class="service-item">
+              <div>
+                <strong>Диагностика последнего сброса</strong>
+                <p>Показать сведения об удалении файлов и снятии меток.</p>
+              </div>
+              <div class="actions">
+                <button id="showResetDiagBtn">Показать</button>
+                <button id="clearResetDiagBtn">Очистить запись</button>
+              </div>
+              <pre id="resetDiagResult" class="result" aria-live="polite"></pre>
+            </div>
+            <div class="service-item">
+              <div>
+                <strong>Журнал разработчика</strong>
+                <p>Техническая трассировка последних операций без тела писем и содержимого вложений.</p>
+              </div>
+              <div class="actions">
+                <button id="downloadDiagnosticSnapshotBtn">Снимок диагностики</button>
+                <button id="copyDeveloperLogBtn">Скопировать журнал</button>
+                <button id="downloadDeveloperLogBtn">Скачать JSON</button>
+                <button id="clearDeveloperLogBtn">Очистить</button>
+              </div>
+              <pre id="developerLogResult" class="result" aria-live="polite"></pre>
+            </div>
+          </div>
+          <div class="danger-zone">
+            <div>
+              <strong>Сбросить статистику и историю</strong>
+              <p>Удаляет скачанные плагином файлы, историю обработок, статистику и служебные метки. Правила и настройки сохраняются.</p>
+            </div>
+            <button id="resetPluginBtn" class="danger">Сбросить данные</button>
+          </div>
+        </section>
+      </div>
+
+      <aside class="sidebar">
+        <section class="card summary-card">
+          <h2>Текущая конфигурация</h2>
+          <dl>
+            <div><dt>Автопроверка</dt><dd id="summaryLiveMode">—</dd></div>
+            <div><dt>Обработка правил</dt><dd id="summaryMatchMode">—</dd></div>
+            <div><dt>Теги</dt><dd id="summaryTags">—</dd></div>
+            <div><dt>Подпапка</dt><dd id="summaryBasePath">—</dd></div>
+          </dl>
+          <button id="openRulesSecondary">Открыть правила</button>
+        </section>
+        <section class="card save-card">
+          <div id="saveStatus" class="save-status" role="status" aria-live="polite">Изменений нет</div>
+          <div class="save-actions">
+            <button id="defaultsBtn">По умолчанию</button>
+            <button id="saveSettings" class="primary">Сохранить</button>
+          </div>
+        </section>
+      </aside>
+    </div>
+  </main>
+  <script type="module" src="settings.js"></script>
+</body>
+</html>

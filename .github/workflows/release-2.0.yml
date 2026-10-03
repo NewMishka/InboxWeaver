@@ -1,0 +1,77 @@
+name: Publish InboxWeaver 2.0 pre-release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      VERSION: "2.0"
+      TAG: "v2.0"
+      XPI: "/tmp/inbox-weaver-v2.0.xpi"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Stop if release already exists
+        id: existing
+        shell: bash
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Release $TAG already exists; nothing to publish."
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Setup Node.js
+        if: steps.existing.outputs.exists != 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Verify manifest version
+        if: steps.existing.outputs.exists != 'true'
+        run: |
+          actual="$(node -p "require('./manifest.json').version")"
+          test "$actual" = "$VERSION"
+
+      - name: Unit tests
+        if: steps.existing.outputs.exists != 'true'
+        run: node --test test/*.test.mjs
+
+      - name: JavaScript syntax
+        if: steps.existing.outputs.exists != 'true'
+        run: |
+          node --check background.js
+          find core modules mainPopup rulesTab settingsTab statisticsTab auditTab -type f \( -name '*.js' -o -name '*.mjs' \) -print0 | xargs -0 -n1 node --check
+
+      - name: Build and verify XPI
+        if: steps.existing.outputs.exists != 'true'
+        run: |
+          git diff --check
+          bash scripts/build-xpi.sh "$GITHUB_SHA" "$XPI"
+          unzip -t "$XPI"
+          unzip -l "$XPI" | grep -q 'manifest.json'
+          unzip -l "$XPI" | grep -q 'LICENSE'
+          (cd /tmp && sha256sum "$(basename "$XPI")" > SHA256SUMS)
+          cat /tmp/SHA256SUMS
+
+      - name: Create GitHub pre-release
+        if: steps.existing.outputs.exists != 'true'
+        run: |
+          gh release create "$TAG" \
+            "$XPI#InboxWeaver — InboxWeaver 2.0 XPI" \
+            "/tmp/SHA256SUMS#SHA256SUMS" \
+            --target "$GITHUB_SHA" \
+            --title "InboxWeaver — InboxWeaver — Менеджер писем 2.0" \
+            --notes-file docs/RELEASE_2.0.md \
+            --prerelease

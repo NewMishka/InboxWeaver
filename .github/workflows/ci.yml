@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - "release/**"
+  pull_request:
+    branches:
+      - main
+      - develop
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Unit tests
+        run: node --test test/*.test.mjs
+
+      - name: JavaScript syntax
+        run: |
+          node --check background.js
+          find core modules mainPopup rulesTab settingsTab statisticsTab auditTab -type f \( -name '*.js' -o -name '*.mjs' \) -print0 | xargs -0 -n1 node --check
+
+      - name: Diff whitespace check
+        run: git diff --check
+
+      - name: Reproducible XPI smoke
+        run: |
+          bash scripts/build-xpi.sh "$GITHUB_SHA" /tmp/inbox-weaver-v2.0.xpi
+          unzip -t /tmp/inbox-weaver-v2.0.xpi
+          sha256sum /tmp/inbox-weaver-v2.0.xpi

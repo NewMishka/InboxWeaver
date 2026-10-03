@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Статистика</title>
+  <style>
+    :root{--blue:#005eb8;--dark:#0b2e59;--muted:#5d718a;--line:#c9dcf2;--bg:#f5f8fc;--green:#087a3d;--red:#b42318;--amber:#a56300}
+    *{box-sizing:border-box}body{font-family:Arial,sans-serif;padding:24px;max-width:1480px;margin:auto;color:var(--dark);background:var(--bg);font-size:14px}h1,h2{margin:0 0 12px}h2{margin-top:24px}
+    .hero-note,.card{border:1px solid #d7e5f4;border-radius:14px;background:#fff;box-shadow:0 8px 24px rgba(0,75,145,.07)}.hero-note{padding:12px 14px;margin:14px 0}.muted,.toolbar-note{color:var(--muted);font-size:13px}
+    .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:12px}.card{padding:15px}.card[data-status]{cursor:pointer}.card[data-status]:hover{border-color:var(--blue);transform:translateY(-1px)}.kpi{font-size:28px;font-weight:700;color:var(--blue);margin-top:3px}.card.positive .kpi{color:var(--green)}.card.attention .kpi{color:var(--red)}.kpi-suffix{font-size:15px;font-weight:700;color:var(--muted)}
+    .filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:16px 0}.filters>div{display:flex;flex-direction:column;gap:6px}.filters label{font-size:12px;font-weight:700}.date-range{grid-column:span 2;padding:10px 12px;border:1px solid #c9dcf2;border-radius:12px;background:#f7fbff}.date-range-title{font-size:12px;font-weight:700;color:var(--dark)}.date-range-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}.date-range-fields>label{display:flex;flex-direction:column;gap:5px;color:var(--muted)}button,select,input{min-height:40px;padding:8px 11px;border:1px solid #9ebee2;border-radius:9px;background:#fff;color:var(--dark);font:inherit}button{cursor:pointer;font-weight:700}button:hover{border-color:var(--blue);background:#f2f7fd}.actions,.toggle-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:12px 0}.toggle-row>label{display:inline-flex;align-items:center;gap:7px;line-height:1.2}.toggle-row input[type="checkbox"]{width:16px;height:16px;min-height:0;margin:0;padding:0;flex:0 0 auto}.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+    table{width:100%;border-collapse:separate;border-spacing:0;font-size:13px;border:1px solid #d1e0f0;border-radius:12px;overflow:hidden;background:#fff;margin:8px 0}th,td{border-bottom:1px solid #e1ebf5;border-right:1px solid #eef4fa;padding:9px;vertical-align:top;overflow-wrap:normal;word-break:normal;hyphens:none}th{background:#eaf2fb;text-align:left}td:last-child,th:last-child{border-right:0}tr:last-child td{border-bottom:0}a{color:var(--blue);text-decoration:none}.status-badge{display:inline-block;padding:3px 8px;border-radius:999px;font-size:12px;font-weight:700}.status-ok{background:#e2f4e9;color:var(--green)}.status-err{background:#fbe8e7;color:var(--red)}.status-warn{background:#fff0d9;color:var(--amber)}.status-neutral{background:#e9f1fa;color:#456987}
+    .operational-table{width:100%;min-width:1680px;table-layout:auto}.operational-table th:nth-child(1){min-width:52px}.operational-table th:nth-child(2){min-width:120px}.operational-table th:nth-child(3){min-width:150px}.operational-table th:nth-child(4){min-width:180px}.operational-table th:nth-child(5){min-width:160px}.operational-table th:nth-child(6),.operational-table th:nth-child(11){min-width:220px}.operational-table th:nth-child(7){min-width:112px}.operational-table th:nth-child(8){min-width:110px}.operational-table th:nth-child(9){min-width:160px}.operational-table th:nth-child(10){min-width:140px}.operational-table th:nth-child(12){min-width:90px}.operational-table button{max-width:100%;white-space:normal;padding:6px 8px}.operational-table button:disabled{cursor:wait;opacity:.58;background:#9eb4cc;border-color:#829bb7;color:#fff}.pagination{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:8px 0 12px}.pagination-controls,.page-size{display:flex;align-items:center;gap:8px}.pagination select{min-height:34px;padding:5px 9px}.pagination button{min-height:34px;padding:5px 12px}.pagination button:disabled{cursor:default;opacity:.45;background:#f5f8fc}.page-info{color:var(--muted);font-size:13px}
+    #statsTable th,#statsTable td,#messagesTable th,#messagesTable td{text-align:center;vertical-align:middle}#messagesTable tr.new-row td{background:#dcecff}#messagesTable th[data-sort-key]{cursor:pointer;user-select:none;position:relative;padding-right:24px}#messagesTable th[data-sort-key]:hover{background:#dceafb}#messagesTable th[data-sort-key]::after{content:'↕';position:absolute;right:8px;color:#7b96b8}#messagesTable th.sort-asc::after{content:'▲';color:var(--blue)}#messagesTable th.sort-desc::after{content:'▼';color:var(--blue)}.matched-attachment-item,.matched-rule-item{padding:5px 0}.matched-attachment-item+.matched-attachment-item,.matched-rule-item+.matched-rule-item{border-top:1px solid #c9dcf2}.importance-mark{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;border-radius:50%;font-weight:800}.importance-high{color:#b42318;background:#ffe5ea;border:1px solid #f3b4c0}.importance-normal{color:#456987;background:#edf3f9;border:1px solid #ccdbea}.importance-low{color:#005eb8;background:#d9ecff;border:1px solid #a7c8ef}.live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#17a34a;vertical-align:middle}.empty{text-align:center;color:var(--muted);padding:20px}.table-wrap{max-width:100%;overflow-x:auto;overscroll-behavior-x:contain}
+    @media(max-width:700px){body{padding:14px}.actions button{flex:1}.date-range{grid-column:1/-1}.date-range-fields{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <h1>Статистика обработки</h1>
+  <div class="hero-note muted">На экране учитываются только письма, попавшие под правила. Количество и объём файлов рассчитываются по фактически сохранённым вложениям.</div>
+
+  <div class="kpi-grid">
+    <div class="card" data-status="" title="Показать все результаты"><div class="muted">Писем по правилам</div><div id="kpiTotal" class="kpi">0</div></div>
+    <div class="card positive" data-status="processed" title="Показать обработанные письма"><div class="muted">Обработано писем</div><div id="kpiOk" class="kpi">0</div></div>
+    <div class="card positive"><div class="muted">Сохранено вложений</div><div id="kpiSaved" class="kpi">0</div></div>
+    <div class="card attention" data-status="attention" title="Показать ошибки и частичную обработку"><div class="muted">Требуют внимания</div><div id="kpiErr" class="kpi">0</div></div>
+    <div class="card" data-status="duplicate" title="Показать дубли"><div class="muted">Дубли</div><div id="kpiDuplicates" class="kpi">0</div></div>
+    <div class="card"><div class="muted">Успешность сохранения</div><div><span id="kpiRate" class="kpi">—</span><span class="kpi-suffix">%</span></div></div>
+    <div class="card"><div class="muted">Объём сохранённых файлов</div><div id="kpiVolume" class="kpi">0 Б</div></div>
+    <div class="card"><div class="muted">Уникальных отправителей</div><div id="kpiSenders" class="kpi">0</div></div>
+  </div>
+
+  <div class="filters">
+    <div><label>Отправитель</label><input id="senderFilter" placeholder="Имя или email"></div>
+    <div><label>Правило</label><select id="ruleNameFilter"><option value="">Все правила</option></select></div>
+    <div><label>Почтовый ящик</label><select id="accountFilter"><option value="">Все ящики</option></select></div>
+    <div><label>Результат обработки</label><select id="statusFilter"><option value="">Все результаты</option><option value="pending">Ожидает сохранения</option><option value="attention">Требуют внимания</option><option value="processed">Обработано</option><option value="partial">Обработано частично</option><option value="error">Ошибка</option><option value="duplicate">Дубль</option><option value="no_attachments">Нет вложений</option><option value="matched">Совпало правило</option></select></div>
+    <div><label>Важность письма</label><select id="importanceFilter"><option value="">Любая важность</option><option value="high">Высокая</option><option value="normal">Обычная</option><option value="low">Низкая</option><option value="unknown">Не определена</option></select></div>
+    <div class="date-range">
+      <div class="date-range-title">Период получения</div>
+      <div class="date-range-fields">
+        <label>С<input id="dateFromFilter" type="date"></label>
+        <label>По<input id="dateToFilter" type="date"></label>
+      </div>
+    </div>
+    <div><label>Группировка 1</label><select id="group1"><option value="">Без группировки</option><option value="accountName">Ящик</option><option value="sender">Отправитель</option><option value="ruleFolder">Папка результата</option><option value="ruleName">Правило</option><option value="eventDate">Дата получения</option><option value="importance">Важность</option><option value="outcome">Результат</option></select></div>
+    <div><label>Группировка 2</label><select id="group2"><option value="">Без группировки</option><option value="accountName">Ящик</option><option value="sender">Отправитель</option><option value="ruleFolder">Папка результата</option><option value="ruleName">Правило</option><option value="eventDate">Дата получения</option><option value="importance">Важность</option><option value="outcome">Результат</option></select></div>
+  </div>
+
+  <div class="toggle-row"><label><input type="checkbox" id="autoRefreshToggle" checked> Автообновление</label><span id="liveState" class="toolbar-note"><span class="live-dot"></span> Каждые 3 сек.</span><span id="lastUpdated" class="toolbar-note">Последнее обновление: —</span></div>
+  <div class="actions"><button id="refreshBtn">Обновить</button><button id="resetFiltersBtn">Сбросить фильтры</button><button id="saveAllBtn">Сохранить все вложения</button><button id="exportBtn">Экспорт XLSX</button><button id="exportManagerBtn" class="primary">Отчёт руководителя XLSX</button></div>
+
+  <h2>Сводка по письмам, попавшим под правила</h2>
+  <div class="table-wrap"><table id="summaryTable"><thead><tr><th>Группа 1</th><th>Группа 2</th><th>Писем</th></tr></thead><tbody></tbody></table></div>
+
+  <h2>Результаты обработки писем, попавших под правила</h2>
+  <div class="pagination" aria-label="Навигация по письмам">
+    <label class="page-size">Писем на странице <select id="messagesPageSize"><option value="20">20</option><option value="50">50</option><option value="100">100</option></select></label>
+    <span id="messagesPageInfo" class="page-info"></span>
+    <div class="pagination-controls"><button id="messagesPrevPage" type="button">← Назад</button><button id="messagesNextPage" type="button">Вперёд →</button></div>
+  </div>
+  <div class="table-wrap"><table id="messagesTable" class="operational-table"><thead><tr><th>№</th><th data-sort-key="receivedDate">Дата получения</th><th data-sort-key="accountName">Ящик</th><th data-sort-key="sender">Отправитель</th><th data-sort-key="subject">Тема</th><th>Вложения по правилу</th><th>Действие</th><th data-sort-key="importance">Важность</th><th data-sort-key="ruleName">Правило</th><th data-sort-key="outcome">Результат</th><th data-sort-key="reason">Причина</th><th data-sort-key="processedCount">Сохранено</th></tr></thead><tbody></tbody></table></div>
+
+  <h2>Сохранённые вложения</h2>
+  <div class="pagination" aria-label="Навигация по вложениям">
+    <label class="page-size">Писем с вложениями на странице <select id="attachmentsPageSize"><option value="20">20</option><option value="50">50</option><option value="100">100</option></select></label>
+    <span id="attachmentsPageInfo" class="page-info"></span>
+    <div class="pagination-controls"><button id="attachmentsPrevPage" type="button">← Назад</button><button id="attachmentsNextPage" type="button">Вперёд →</button></div>
+  </div>
+  <div class="table-wrap"><table id="statsTable" class="operational-table"><thead><tr><th>№</th><th>Дата получения</th><th>Ящик</th><th>Отправитель</th><th>Тема</th><th>Вложения по правилу</th><th>Действие</th><th>Важность</th><th>Правило</th><th>Результат</th><th>Причина</th><th>Сохранено</th></tr></thead><tbody></tbody></table></div>
+  <script type="module" src="statistics.js"></script>
+</body>
+</html>
