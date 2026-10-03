@@ -1,0 +1,23 @@
+name: Предложение
+description: Предложить улучшение InboxWeaver
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Какую задачу нужно решить
+      description: Опишите пользовательскую проблему, а не только желаемую реализацию.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Предлагаемое поведение
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Альтернативы
+      description: Какие обходные пути или варианты уже пробовали?

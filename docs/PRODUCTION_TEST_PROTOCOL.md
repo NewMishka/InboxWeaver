@@ -2,21 +2,18 @@
 
 ## Сборка
 
-Этот бланк относится к версии 2.0 на кодовой базе test62. Данные ниже описывают **исходный кандидат 1.0.230**, а не артефакт 2.0. Перед ручным прогоном впишите commit, SHA-256 и ссылку на новый XPI из GitHub Release.
+Публичный кандидат:
 
 ```text
-XPI 2.0: inbox-weaver-v2.0.xpi
-Commit 2.0:
-SHA-256 2.0: 794ac1ae78338058a86d777cb01131c8e11c77447230df1b03eee98d39ec8fcc
-Ссылка на релиз 2.0:
+XPI: inbox-weaver-v2.0.xpi
+Tag: v2.0
+Commit: f5d6c90c614dd543bd984c0c71096f7ac8123dda
+SHA-256: 22c750cd55e7f398a5209d1937f7753dae325ace7c282297fe6869f3e2d0e8c4
+Release: https://github.com/NewMishka/inbox-weaver/releases/tag/v2.0
+Статус: pre-release
 ```
 
-- файл: `inbox-weaver-v1.0.230-rfc-message-id-recovery-test62.xpi`;
-- commit: `5d6ec16eb9f13204aa2aeeffbf7723ad83f6a4d1`;
-- SHA-256: `8f65e477ca24e8a48a1141408160d3f4dfe79f3f3c25038383713fecaeab72d8`;
-- Google Drive: [inbox-weaver-v1.0.230-rfc-message-id-recovery-test62.xpi](https://drive.google.com/file/d/1P5AFoM3bg5f1oSvaR9rpYKSBAoqv1ux9/view?usp=drivesdk);
-- GitHub Release: test-1.0.230-rfc-message-id-recovery-test62;
-- reference: `1.0.162`.
+Историческая функциональная база — 1.0.230 / test62. Внутренние артефакты и ссылки приватной линии разработки в публичный протокол не включаются.
 
 ## Среда
 

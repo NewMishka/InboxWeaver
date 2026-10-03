@@ -4,12 +4,10 @@
 
 - версия: `1.0.230`;
 - ветка результата: `develop`;
-- commit: `5d6ec16eb9f13204aa2aeeffbf7723ad83f6a4d1`;
 - PR: `#57`, `#58`;
 - тестовый артефакт: `inbox-weaver-v1.0.230-rfc-message-id-recovery-test62.xpi`;
-- SHA-256: `8f65e477ca24e8a48a1141408160d3f4dfe79f3f3c25038383713fecaeab72d8`.
 
-Это test candidate, а не production-релиз: XPI опубликован в [Google Drive](https://drive.google.com/file/d/1P5AFoM3bg5f1oSvaR9rpYKSBAoqv1ux9/view?usp=drivesdk) и как предварительный GitHub Release. До production-релиза требуется ручной протокол.
+Это исторический test candidate, а не публичный production-релиз. Внутренние ссылки на тестовые артефакты и commit SHA приватной линии разработки намеренно не публикуются. До production-статуса требуется ручной протокол.
 
 ## Что реализовано
 
