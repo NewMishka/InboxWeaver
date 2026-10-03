@@ -32,6 +32,20 @@ jobs:
             echo "exists=false" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Refresh existing release metadata
+        if: steps.existing.outputs.exists == 'true'
+        shell: bash
+        run: |
+          gh release edit "$TAG" \
+            --title "InboxWeaver — Менеджер писем 2.0" \
+            --notes-file docs/RELEASE_2.0.md \
+            --prerelease
+          asset_id="$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$TAG" --jq '.assets[] | select(.name=="inbox-weaver-v2.0.xpi") | .id' | head -n1)"
+          if [ -n "$asset_id" ]; then
+            gh api --method PATCH "repos/$GITHUB_REPOSITORY/releases/assets/$asset_id" \
+              -f label="InboxWeaver 2.0 XPI" >/dev/null
+          fi
+
       - name: Setup Node.js
         if: steps.existing.outputs.exists != 'true'
         uses: actions/setup-node@v4
@@ -69,9 +83,9 @@ jobs:
         if: steps.existing.outputs.exists != 'true'
         run: |
           gh release create "$TAG" \
-            "$XPI#InboxWeaver — InboxWeaver 2.0 XPI" \
+            "$XPI#InboxWeaver 2.0 XPI" \
             "/tmp/SHA256SUMS#SHA256SUMS" \
             --target "$GITHUB_SHA" \
-            --title "InboxWeaver — InboxWeaver — Менеджер писем 2.0" \
+            --title "InboxWeaver — Менеджер писем 2.0" \
             --notes-file docs/RELEASE_2.0.md \
             --prerelease
