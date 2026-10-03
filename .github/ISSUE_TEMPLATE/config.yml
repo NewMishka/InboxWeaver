@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Документация InboxWeaver
+    url: https://newmishka.gitbook.io/inbox-weaver-dokumentaciya/
+    about: Руководство пользователя и описание возможностей
+  - name: Security
+    url: https://github.com/NewMishka/inbox-weaver/security
+    about: Для сообщений об уязвимостях используйте Security, а не публичный Issue
