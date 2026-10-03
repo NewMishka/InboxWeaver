@@ -42,10 +42,21 @@ PR должен содержать:
 
 ## Merge policy
 
-- рабочая ветка → `develop`;
-- `develop` → релизная ветка;
-- релизная ветка → `main`;
-- прямые изменения в `main` допускаются только для экстренной документации или административной настройки репозитория.
+- рабочая ветка → Pull Request → `main`;
+- перед merge обязательны зелёный CI и отсутствие незакрытых замечаний;
+- релизы создаются из зафиксированного commit в `main`;
+- прямые изменения `main` не используются для обычной разработки.
+
+## Проверки перед Pull Request
+
+```bash
+node --test test/*.test.mjs
+node --check background.js
+find core modules mainPopup rulesTab settingsTab statisticsTab auditTab -type f \( -name '*.js' -o -name '*.mjs' \) -print0 | xargs -0 -n1 node --check
+git diff --check
+```
+
+Если изменение затрагивает интеграцию с почтовым клиентом, укажите в PR, какой ручной smoke ещё требуется.
 
 ## Подтверждение baseline
 
