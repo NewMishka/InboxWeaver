@@ -191,7 +191,7 @@ export function createForceExportService({
     if (checkedMessages > 0 || stopped) {
       messenger.notifications.create({
         type: 'basic',
-        title: 'InboxWeaver — Менеджер писем',
+        title: 'Менеджер писем',
         message: stopped
           ? `Проверка остановлена. Проверено писем: ${checkedMessages}`
           : `Проверка завершена. Проверено писем: ${checkedMessages}`
