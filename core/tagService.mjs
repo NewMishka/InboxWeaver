@@ -280,7 +280,7 @@ export async function applyResultFeedback(messageId, auditStatus, subject) {
     try {
       messenger.notifications.create({
         type: 'basic',
-        title: 'InboxWeaver — Менеджер писем',
+        title: 'Менеджер писем',
         message:
           `Письмо совпало по правилу, но не обработано полностью: ` +
           `«${subject || ''}» (${auditStatus})`
