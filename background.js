@@ -91,13 +91,13 @@ async function processSelectedMessages(selectedMessages, { saveAttachments = fal
   if (saved > 0) {
     messenger.notifications.create({
       type: 'basic',
-      title: 'InboxWeaver — Менеджер писем',
+      title: 'Менеджер писем',
       message: `Обработано вложений: ${saved}`
     });
   } else if (processed > 0) {
     messenger.notifications.create({
       type: 'basic',
-      title: 'InboxWeaver — Менеджер писем',
+      title: 'Менеджер писем',
       message: 'Новых вложений не найдено'
     });
   }

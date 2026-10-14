@@ -1,9 +1,9 @@
 {
   "manifest_version": 2,
-  "name": "InboxWeaver — Менеджер писем",
+  "name": "Менеджер писем",
   "description": "Правила обработки электронной почты, управление вложениями, статистика и XLSX-отчёты.",
   "version": "2.0",
-  "author": "NewMishka",
+  "author": "NM",
   "browser_specific_settings": {
     "gecko": {
       "id": "attachmentorganizerpro@example.com"
@@ -11,7 +11,7 @@
   },
   "browser_action": {
     "default_popup": "mainPopup/popup.html",
-    "default_title": "InboxWeaver — Менеджер писем",
+    "default_title": "Менеджер писем",
     "default_icon": "images/icon.svg"
   },
   "permissions": [
@@ -36,8 +36,8 @@
     "64": "images/icon.svg"
   },
   "developer": {
-    "name": "NewMishka",
-    "url": "https://github.com/NewMishka/inbox-weaver"
+    "name": "NM",
+    "url": "https://github.com/NewMishka/InboxWeaver"
   },
-  "homepage_url": "https://github.com/NewMishka/inbox-weaver"
+  "homepage_url": "https://github.com/NewMishka/InboxWeaver"
 }
